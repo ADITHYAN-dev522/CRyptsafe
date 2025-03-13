@@ -11,6 +11,13 @@ def generate_x25519_keypair():
     public_key = private_key.public_key()
     return private_key.private_bytes_raw(), public_key.public_bytes_raw()
 
+def derive_shared_secret(private_key_bytes, peer_public_key_bytes):
+    """Derive a shared secret using X25519 key exchange."""
+    private_key = x25519.X25519PrivateKey.from_private_bytes(private_key_bytes)
+    peer_public_key = x25519.X25519PublicKey.from_public_bytes(peer_public_key_bytes)
+    return private_key.exchange(peer_public_key)
+
+
 def encrypt_aes_key(aes_key, public_key_bytes):
     """Encrypts an AES key using an X25519 public key."""
     public_key = x25519.X25519PublicKey.from_public_bytes(public_key_bytes)

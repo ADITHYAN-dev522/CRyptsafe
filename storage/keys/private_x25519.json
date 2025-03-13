@@ -1,0 +1,8 @@
+{
+    "timestamp": "2025-03-12T13:09:08.194921",
+    "ephemeral_public_key": "wP7bQ80b7MboUPIdMdAsDC6c8HyEA5P/yHb3X+mhxxY=",
+    "nonce": "k37Ch/pu32vk0fri",
+    "encrypted_key": "LmGEbdLMUpHArw+ZEQdYW2Z9Ivqq6K6gY/133nRldB0r4DJkK5A8XxwH8bxlh922",
+    "salt": "akTr9z5DLp6ZLnVRbyx1CA==",
+    "integrity_check": "a34e67811872d050f277f065ad3a35de8e9608b92887d890fc9196442485eaea"
+}

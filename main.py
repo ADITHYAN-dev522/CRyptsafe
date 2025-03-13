@@ -22,6 +22,7 @@ from encryption.key_exchange import generate_x25519_keypair
 from encryption.key_manager import store_encrypted_key
 from file_handler import SecureFileTransfer
 from auth import register_user, authenticate_user, check_permission, is_strong_password, enable_mfa
+from auth import generate_and_store_ecdsa_keypair, load_ecdsa_keypair
 from cryptography.hazmat.primitives import serialization
 from blessed import Terminal
 
@@ -39,9 +40,21 @@ FILE_STORAGE = os.path.join(STORAGE_DIR, "files/")
 LOG_STORAGE = os.path.join(STORAGE_DIR, "logs/")
 USER_STORAGE = os.path.join(STORAGE_DIR, "users/")
 ENCRYPTED_STORAGE = os.path.join(STORAGE_DIR, "encrypted_files/")
+DECRYPTED_STORAGE = os.path.join(STORAGE_DIR, "decrypted_files/")
+SIGNED_STORAGE = os.path.join(STORAGE_DIR, "signed_files/")
+SIGNATURE_STORAGE = os.path.join(STORAGE_DIR, "signatures/")
 
-for directory in [KEY_STORAGE, FILE_STORAGE, LOG_STORAGE, USER_STORAGE, ENCRYPTED_STORAGE]:
+# Create directories if they don't exist
+for directory in [KEY_STORAGE, FILE_STORAGE, LOG_STORAGE, USER_STORAGE, ENCRYPTED_STORAGE, DECRYPTED_STORAGE, SIGNED_STORAGE, SIGNATURE_STORAGE]:
     os.makedirs(directory, exist_ok=True)
+
+# Initialize SecureFileTransfer with storage directories
+file_handler = SecureFileTransfer(
+    encrypted_storage=ENCRYPTED_STORAGE,
+    decrypted_storage=DECRYPTED_STORAGE,
+    signed_storage=SIGNED_STORAGE,
+    signature_storage=SIGNATURE_STORAGE
+)
 
 def secure_log(user, action, details):
     timestamp = datetime.utcnow().isoformat()
@@ -99,7 +112,7 @@ if choice == "1":
         sys.exit(1)
 
 elif choice == "2":
-    private_key, role = authenticate_user(username, password)
+    private_key, role, ecdsa_private_key, ecdsa_public_key = authenticate_user(username, password)
     if not private_key:
         console.print("[bold red]❌ Authentication failed. Exiting.[/bold red]")
         sys.exit(1)
@@ -135,10 +148,13 @@ def show_menu():
     table.add_row("1", "Generate Keys")
     table.add_row("2", "Encrypt/Decrypt Data")
     table.add_row("3", "Perform File Operations")
-    table.add_row("4", "View Stored Encrypted Files") 
-    table.add_row("5", "Help & Information")
-    table.add_row("6", "Exit")
-   
+    table.add_row("4", "View Stored Encrypted Files")
+    table.add_row("5", "Sign File")  
+    table.add_row("6", "Verify File Signature")  
+    table.add_row("7", "Help & Information")
+    table.add_row("8", "Secure File Transfer")  # Updated option name
+    table.add_row("9", "Exit CryptSafe")
+
     console.print("\n")
     console.print(table, justify="center")
 
@@ -175,7 +191,7 @@ def show_help():
                        "Encrypt or decrypt a file using AES encryption. Stores encrypted files securely.")
     help_table.add_row("4", "View Encrypted Files in Storage", 
                        "List all stored encrypted files in the secure storage location.")
-    help_table.add_row("5", "Secure File Transfer (Planned)", 
+    help_table.add_row("5", "Secure File Transfer", 
                        "Allows securely transferring encrypted files to another user or system.")
     help_table.add_row("6", "Help & Info", 
                        "Displays details about available commands and their usage.")
@@ -184,12 +200,66 @@ def show_help():
 
     console.print(help_table, justify="center")
 
-# Main Interactive Loop
+
+def sign_file_cli(file_handler, ecdsa_private_key):
+    """CLI function to sign a file."""
+    file_path = Prompt.ask("[bold yellow]Enter the file path to sign[/bold yellow]")
+    if not os.path.exists(file_path):
+        console.print("[bold red]❌ File not found.[/bold red]", justify="center")
+        return
+
+    with console.status("[bold cyan]Signing file...[/bold cyan]", spinner="dots"):
+        signature_path = file_handler.sign_file(ecdsa_private_key, file_path)
+
+    if signature_path:
+        console.print(f"[green]✅ File signed successfully. Signature saved to: {signature_path}[/green]", justify="center")
+    else:
+        console.print("[bold red]❌ File signing failed.[/bold red]", justify="center")
+
+def verify_file_signature_cli(file_handler, ecdsa_public_key):
+    """CLI function to verify a file signature."""
+    file_path = Prompt.ask("[bold yellow]Enter the file path to verify[/bold yellow]")
+    signature_path = Prompt.ask("[bold yellow]Enter the signature file path[/bold yellow]")
+
+    if not os.path.exists(file_path) or not os.path.exists(signature_path):
+        console.print("[bold red]❌ File or signature not found.[/bold red]", justify="center")
+        return
+
+    with console.status("[bold cyan]Verifying file signature...[/bold cyan]", spinner="dots"):
+        if file_handler.verify_file_signature(ecdsa_public_key, file_path, signature_path):
+            console.print("[green]✅ File signature verified successfully.[/green]", justify="center")
+        else:
+            console.print("[bold red]❌ File signature verification failed.[/bold red]", justify="center")
+
 def main_cli():
+    # Initialize SecureFileTransfer with storage directories
+    file_handler = SecureFileTransfer(
+        encrypted_storage=ENCRYPTED_STORAGE,
+        decrypted_storage=DECRYPTED_STORAGE,
+        signed_storage=SIGNED_STORAGE,
+        signature_storage=SIGNATURE_STORAGE
+    )
+
+    # Generate or load the ECDSA key pair
+    key_dir = os.path.join("storage/keys/", username)
+    if not os.path.exists(key_dir):
+        private_key, public_key = generate_and_store_ecdsa_keypair(username)
+    else:
+        private_key, public_key = load_ecdsa_keypair(username)
+
+    # Authenticate the user and get keys
+    private_key, role, ecdsa_private_key, ecdsa_public_key = authenticate_user(username, password)
+    if not private_key:
+        console.print("[bold red]❌ Authentication failed. Exiting.[/bold red]")
+        sys.exit(1)
+
+    console.rule(f"[green]✅ Logged in as {username} ({role})[/green]")
+    secure_log(username, "Login", "Successful")
+
     while True:
         show_menu()
-        command = Prompt.ask("[bold cyan]Select an option[/bold cyan]", choices=["1", "2", "3", "4","5", "6"])
-        
+        command = Prompt.ask("[bold cyan]Select an option[/bold cyan]", choices=["1", "2", "3", "4", "5", "6", "7", "8", "9"])
+
         if command == "1" and check_permission(role, "manage_keys"):
             try:
                 private_key, public_key = generate_x25519_keypair()
@@ -209,12 +279,12 @@ def main_cli():
                 console.log("[green]🔑 X25519 Key Pair Generated and Securely Stored[/green]")
             except Exception as e:
                 console.log(f"[bold red]❌ Error generating/storing X25519 key pair: {e}[/bold red]")
-        
+
         elif command == "2" and check_permission(role, "write"):
             progress_task("Running AES-GCM Test")
             AES_KEY = os.urandom(32)
             data = b"Confidential Data!"
-            
+
             nonce, ciphertext = encrypt_data(data, AES_KEY)
             decrypted = decrypt_data(nonce, ciphertext, AES_KEY)
             assert decrypted == data
@@ -222,15 +292,13 @@ def main_cli():
                 console.log("[green]✅ AES-GCM Encryption Successful[/green]")
             else:
                 console.log("[bold red]❌ AES-GCM Test Failed[/bold red]")
-        
+
         elif command == "3" and check_permission(role, "write"):
             animated_text("📂 Secure File Operations...")
             time.sleep(1)
             console.print("[yellow]Feature under development![/yellow]", justify="center")
 
             action = Prompt.ask("[bold cyan]Do you want to (1) Encrypt or (2) Decrypt a file?[/bold cyan]", choices=["1", "2"])
-            
-            file_handler = SecureFileTransfer()
 
             if action == "1":
                 file_path = Prompt.ask("[bold yellow]Enter the file path to encrypt[/bold yellow]")
@@ -267,10 +335,39 @@ def main_cli():
         elif command == "4":
             list_encrypted_files()
 
-        elif command == "5":
+        elif command == "5":  # New option: Sign File
+            sign_file_cli(file_handler, ecdsa_private_key)
+
+        elif command == "6":  # New option: Verify File Signature
+            verify_file_signature_cli(file_handler, ecdsa_public_key)
+
+        elif command == "7":
             show_help()
 
-        elif command == "6":
+        elif command == "8":  # Secure File Transfer
+            if check_permission(role, "write"):
+                action = Prompt.ask("[bold cyan]Do you want to (1) Send or (2) Receive a file?[/bold cyan]", choices=["1", "2"])
+                
+                if action == "1":
+                    file_path = Prompt.ask("[bold yellow]Enter the file path to send[/bold yellow]")
+                    receiver_username = Prompt.ask("[bold yellow]Enter the receiver's username[/bold yellow]")
+                    payload_path = file_handler.secure_file_transfer_sender(file_path, receiver_username, private_key, ecdsa_private_key)
+                    if payload_path:
+                        console.print(f"[green]✅ File sent securely. Payload saved to: {payload_path}[/green]")
+                    else:
+                        console.print("[bold red]❌ Secure file transfer failed.[/bold red]")
+                
+                elif action == "2":
+                    payload_path = Prompt.ask("[bold yellow]Enter the payload file path[/bold yellow]")
+                    decrypted_file_path = file_handler.secure_file_transfer_receiver(payload_path, private_key, ecdsa_public_key)
+                    if decrypted_file_path:
+                        console.print(f"[green]✅ File received and verified successfully. Decrypted file saved to: {decrypted_file_path}[/green]")
+                    else:
+                        console.print("[bold red]❌ Secure file transfer failed.[/bold red]")
+            else:
+                console.print("[bold red]❌ Insufficient permissions.[/bold red]")
+
+        elif command == "9":
             animated_text("🔒 Exiting CryptSafe... Goodbye!")
             break
         else:

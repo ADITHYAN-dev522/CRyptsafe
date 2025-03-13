@@ -1,4 +1,4 @@
-
+# Description: This script demonstrates how to derive a 256-bit encryption key using PBKDF2-HMAC-SHA256.
 
 import base64
 import hashlib

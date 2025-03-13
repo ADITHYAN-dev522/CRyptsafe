@@ -1,0 +1,48 @@
+{"timestamp": "2025-03-11T13:46:21.041818", "user": "adi", "action": "User Authentication", "details": "User authenticated successfully with role admin."}
+{"timestamp": "2025-03-11T15:13:22.424898", "user": "adii", "action": "User Authentication Failed", "details": "User does not exist."}
+{"timestamp": "2025-03-11T15:13:32.901118", "user": "adi", "action": "User Authentication", "details": "User authenticated successfully with role admin."}
+{"timestamp": "2025-03-11T15:14:46.619647", "user": "adi", "action": "User Authentication", "details": "User authenticated successfully with role admin."}
+{"timestamp": "2025-03-11T16:20:41.276408", "user": "user", "action": "User Registration", "details": "User registered successfully with role admin."}
+{"timestamp": "2025-03-11T16:21:15.796233", "user": "user", "action": "User Authentication Failed", "details": "Invalid password."}
+{"timestamp": "2025-03-11T16:29:27.165902", "user": "user", "action": "User Authentication Failed", "details": "Invalid password."}
+{"timestamp": "2025-03-11T16:30:21.030213", "user": "user", "action": "User Registration", "details": "User registered successfully with role admin."}
+{"timestamp": "2025-03-11T16:30:28.347647", "user": "user", "action": "MFA Enabled", "details": "MFA enabled successfully."}
+{"timestamp": "2025-03-11T16:32:23.115784", "user": "user", "action": "User Authentication", "details": "User authenticated successfully with role admin."}
+{"timestamp": "2025-03-11T16:32:35.755311", "user": "user", "action": "User Authentication", "details": "User authenticated successfully with role admin."}
+{"timestamp": "2025-03-11T17:31:39.012437", "user": "adi", "action": "User Authentication Failed", "details": "[Errno 2] No such file or directory: 'storage/keys/adi/ecdsa_private_key.pem'"}
+{"timestamp": "2025-03-11T17:34:21.017928", "user": "user", "action": "User Authentication", "details": "User authenticated successfully with role admin."}
+{"timestamp": "2025-03-11T17:43:18.522810", "user": "user", "action": "User Authentication", "details": "User authenticated successfully with role admin."}
+{"timestamp": "2025-03-11T17:43:26.534095", "user": "user", "action": "User Authentication", "details": "User authenticated successfully with role admin."}
+{"timestamp": "2025-03-12T13:07:44.507156", "user": "adi", "action": "User Authentication Failed", "details": "User does not exist."}
+{"timestamp": "2025-03-12T13:08:38.469153", "user": "user", "action": "User Authentication", "details": "User authenticated successfully with role admin."}
+{"timestamp": "2025-03-12T13:08:51.617417", "user": "user", "action": "User Authentication", "details": "User authenticated successfully with role admin."}
+{"timestamp": "2025-03-12T13:22:53.464004", "user": "user", "action": "User Authentication", "details": "User authenticated successfully with role admin."}
+{"timestamp": "2025-03-12T13:23:01.212127", "user": "user", "action": "User Authentication Failed", "details": "Invalid OTP."}
+{"timestamp": "2025-03-12T17:48:39.545957", "user": "user", "action": "User Authentication", "details": "User authenticated successfully with role admin."}
+{"timestamp": "2025-03-12T17:48:44.263326", "user": "user", "action": "User Authentication", "details": "User authenticated successfully with role admin."}
+{"timestamp": "2025-03-12T18:05:15.691558", "user": "user", "action": "User Authentication", "details": "User authenticated successfully with role admin."}
+{"timestamp": "2025-03-12T18:05:20.468816", "user": "user", "action": "User Authentication", "details": "User authenticated successfully with role admin."}
+{"timestamp": "2025-03-12T18:05:53.798129", "user": "user", "action": "User Authentication", "details": "User authenticated successfully with role admin."}
+{"timestamp": "2025-03-12T18:06:00.048128", "user": "user", "action": "User Authentication Failed", "details": "Invalid OTP."}
+{"timestamp": "2025-03-12T18:06:30.876559", "user": "user", "action": "User Authentication Failed", "details": "Invalid OTP."}
+{"timestamp": "2025-03-12T18:07:08.928623", "user": "user", "action": "User Authentication", "details": "User authenticated successfully with role admin."}
+{"timestamp": "2025-03-12T18:07:13.289908", "user": "user", "action": "User Authentication", "details": "User authenticated successfully with role admin."}
+{"timestamp": "2025-03-12T18:10:17.904218", "user": "user", "action": "User Authentication", "details": "User authenticated successfully with role admin."}
+{"timestamp": "2025-03-12T18:10:24.370585", "user": "user", "action": "User Authentication", "details": "User authenticated successfully with role admin."}
+{"timestamp": "2025-03-12T19:19:08.351926", "user": "user", "action": "User Authentication", "details": "User authenticated successfully with role admin."}
+{"timestamp": "2025-03-12T19:19:13.525022", "user": "user", "action": "User Authentication", "details": "User authenticated successfully with role admin."}
+{"timestamp": "2025-03-12T19:28:37.641859", "user": "user", "action": "User Authentication", "details": "User authenticated successfully with role admin."}
+{"timestamp": "2025-03-12T19:28:42.610177", "user": "user", "action": "User Authentication", "details": "User authenticated successfully with role admin."}
+{"timestamp": "2025-03-12T19:31:11.175768", "user": "user", "action": "User Authentication", "details": "User authenticated successfully with role admin."}
+{"timestamp": "2025-03-12T19:31:15.191904", "user": "user", "action": "User Authentication", "details": "User authenticated successfully with role admin."}
+{"timestamp": "2025-03-12T20:03:07.544368", "user": "user", "action": "User Authentication", "details": "User authenticated successfully with role admin."}
+{"timestamp": "2025-03-12T20:03:12.042912", "user": "user", "action": "User Authentication", "details": "User authenticated successfully with role admin."}
+{"timestamp": "2025-03-12T20:05:11.137578", "user": "user", "action": "User Authentication", "details": "User authenticated successfully with role admin."}
+{"timestamp": "2025-03-12T20:05:16.044263", "user": "user", "action": "User Authentication", "details": "User authenticated successfully with role admin."}
+{"timestamp": "2025-03-12T20:32:37.741381", "user": "user", "action": "User Authentication", "details": "User authenticated successfully with role admin."}
+{"timestamp": "2025-03-12T20:32:42.561409", "user": "user", "action": "User Authentication", "details": "User authenticated successfully with role admin."}
+{"timestamp": "2025-03-12T20:58:48.464392", "user": "ADI", "action": "User Registration", "details": "User registered successfully with role admin."}
+{"timestamp": "2025-03-12T20:58:51.796843", "user": "ADI", "action": "MFA Enabled", "details": "MFA enabled successfully."}
+{"timestamp": "2025-03-12T21:00:38.195618", "user": "ADI", "action": "User Authentication", "details": "User authenticated successfully with role admin."}
+{"timestamp": "2025-03-12T21:05:16.783881", "user": "ADI", "action": "User Authentication", "details": "User authenticated successfully with role admin."}
+{"timestamp": "2025-03-12T21:05:26.200881", "user": "ADI", "action": "User Authentication", "details": "User authenticated successfully with role admin."}

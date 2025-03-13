@@ -1,0 +1,9 @@
+{
+    "username": "user",
+    "password_hash": "JDJiJDEyJEZCRkZ3Z0FSSjE1ck92NFhsMTFCYnVpRkd6b01Da0JzT2M5SFZoZnl1NmFzM2RFbjE1UjVt",
+    "nonce": "iarrXcdUsXjl0rie",
+    "encrypted_private_key": "jOonIbtola8LtDPC+Dqlwlr06gsqWNqRDTYAb5NWJF4MK658kiU8jih0BlP7c6U1",
+    "role": "admin",
+    "otp_secret": "GSOFYGXFWZM34PQ6CJX6MGGONC7FGWNX",
+    "ecdsa_public_key": "LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUZrd0V3WUhLb1pJemowQ0FRWUlLb1pJemowREFRY0RRZ0FFZGtwVXh5QjVQcDlVSkZSNlJBV0hNa3g4cEg4NwpsT2I3bkp2WGpCQjJtSWVKTFFIS0pkbjNyS3NpTUMycTM3aDBYc24wVngzeW1TeER1QjF5TjEreEJ3PT0KLS0tLS1FTkQgUFVCTElDIEtFWS0tLS0tCg=="
+}
